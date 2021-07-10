@@ -34,10 +34,8 @@ if __name__ == "__main__":
     agent.init(512,obs_dim,act_dim,if_use_gae=True)
     agent.state = env.reset()
     buffer = ReplayBuffer(2**15,obs_dim,act_dim,True)
-    MAX_EPISODE = 500
-    MAX_STEP = 200
+    MAX_EPISODE = 1000
     batch_size = 256
-    update_every = 50
     rewardList = []
     maxReward = -np.inf
 
