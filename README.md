@@ -4,7 +4,7 @@
 
 ## Result
 
-<img src="Figure_1.png" alt="Figure_1" style="zoom:67%;" />
+<img src="README.assets\Figure_1-1625922043908.png" alt="Figure_1" style="zoom: 50%;" /><img src="result.gif" alt="result" style="zoom: 33%;" />
 
-<img src="result.gif" alt="result" style="zoom: 50%;" />
+
 
