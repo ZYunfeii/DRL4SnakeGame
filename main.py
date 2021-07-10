@@ -56,6 +56,9 @@ if __name__ == "__main__":
     painter = Painter(load_csv=True, load_dir='reward.csv')
     painter.addData(rewardList, 'PPO')
     painter.saveData('reward.csv')
+    painter.setTitle('snake game reward')
+    painter.setXlabel('episode')
+    painter.setYlabel('reward')
     painter.drawFigure()
 
 
