@@ -55,7 +55,7 @@ if __name__ == "__main__":
             torch.save(agent.act.state_dict(),'act_weight.pkl')
     pygame.quit()
 
-    painter = Painter(load_csv=False, load_dir=None)
+    painter = Painter(load_csv=True, load_dir='reward.csv')
     painter.addData(rewardList, 'PPO')
     painter.saveData('reward.csv')
     painter.drawFigure()
