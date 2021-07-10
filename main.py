@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from Agent import AgentD3QN
+from Agent import AgentD3QN, AgentDiscretePPO
 from core import ReplayBuffer
 from draw import Painter
 from env4Snake import Snake
@@ -8,61 +8,56 @@ import random
 import pygame
 import numpy as np
 import torch
+import matplotlib.pyplot as plt
 
-def testAgent(agent):
-    env = Snake()
-    o = env.reset()
+def testAgent(test_env,agent,episode):
+    ep_reward = 0
+    o = test_env.reset()
     for _ in range(500):
-        env.render()
+        if episode % 100 == 0:
+            test_env.render()
         for event in pygame.event.get():  # 不加这句render要卡，不清楚原因
             pass
-        a = agent.select_action(o)
-        o2, r, d = env.step(a)
+        a_int, a_prob = agent.select_action(o)
+        o2, reward, done, _ = test_env.step(a_int)
+        ep_reward += reward
+        if done: break
         o = o2
-        if d: break
+    return ep_reward
 
 if __name__ == "__main__":
     env = Snake()
-    obs_dim = 3
+    test_env = Snake()
     act_dim = 4
-    agent = AgentD3QN()
-    agent.init(256,obs_dim,act_dim)
-    buffer = ReplayBuffer(2**15,obs_dim,1,if_on_policy=False,if_gpu=True)  # 离散情况这个buffer 的actdim一定写1（反直觉）
-    MAX_EPISODE = 100
+    obs_dim = 5
+    agent = AgentDiscretePPO()
+    agent.init(512,obs_dim,act_dim,if_use_gae=True)
+    agent.state = env.reset()
+    buffer = ReplayBuffer(2**15,obs_dim,act_dim,True)
+    MAX_EPISODE = 500
     MAX_STEP = 200
     batch_size = 256
-    gamma = 0.99
     update_every = 50
     rewardList = []
     maxReward = -np.inf
+
     for episode in range(MAX_EPISODE):
-        o = env.reset()
-        ep_reward = 0
-        for j in range(MAX_STEP):
-            if episode > 10:
-                a = agent.select_action(o)
-            else:
-                a = random.randint(0, 3)
-            o2, r, d = env.step(a)
-            mask = 0.0 if d else gamma
-            buffer.append_buffer(o,(r,mask,a))
-
-            if episode >= 10 and j % update_every == 0:
-                agent.update_net(buffer,2**10,batch_size,1)
-            o = o2
-            ep_reward += r
-            if d: break
-        print('Episode:', episode, 'Reward:%f' %ep_reward)
+        with torch.no_grad():
+            trajectory_list = agent.explore_env(env,2**12,1,0.99)
+        buffer.extend_buffer_from_list(trajectory_list)
+        agent.update_net(buffer,batch_size,1,2**-8)
+        ep_reward = testAgent(test_env, agent, episode)
+        print('Episode:', episode, 'Reward:%f' % ep_reward)
         rewardList.append(ep_reward)
-
-        if ep_reward > maxReward:
+        if episode > MAX_EPISODE - 100 and ep_reward > maxReward:
             maxReward = ep_reward
-            print('已保存模型权重！')
+            print('保存模型！')
             torch.save(agent.act.state_dict(),'act_weight.pkl')
-        if episode > 10 and episode %2 == 0: testAgent(agent)
+    pygame.quit()
 
     painter = Painter(load_csv=False, load_dir=None)
-    painter.addData(rewardList, 'D3QN')
+    painter.addData(rewardList, 'PPO')
+    painter.saveData('reward.csv')
     painter.drawFigure()
 
 

@@ -108,7 +108,7 @@ class Painter:
         print("==对{}数据{}次平滑完成!".format(smooth_method_name,N))
 
     @staticmethod
-    def smooth(data,N=5):
+    def smooth(data,N=11):
         n = (N - 1) // 2
         res = np.zeros(len(data))
         for i in range(len(data)):
@@ -126,3 +126,4 @@ class Painter:
 if __name__ == "__main__":
     painter = Painter(load_csv=True, load_dir='./figure1.csv')
     painter.drawFigure(style="whitegrid")
+
