@@ -6,7 +6,7 @@ import pygame
 import sys
 from pygame.locals import *
 import numpy as np
-from Agent import AgentD3QN, AgentDiscretePPO
+from Agent import AgentDiscretePPO
 import torch
 from PIL import Image
 from torchvision import transforms

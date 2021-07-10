@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from Agent import AgentD3QN, AgentDiscretePPO
+from Agent import AgentDiscretePPO
 from core import ReplayBuffer
 from draw import Painter
 from env4Snake import Snake
