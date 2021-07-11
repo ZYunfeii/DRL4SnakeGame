@@ -8,7 +8,7 @@ You just need half an hour to train the snake and then it can be as smart as you
 
 ## Result
 
-<img src="README.assets\Figure_1-1625922043908.png" width="600" height="500" alt="Figure_1" style="zoom: 50%;" /><img src="result.gif" width="800" height="700" alt="result" style="zoom: 33%;" />
+<img src="README.assets\Figure_1-1625922043908.png" width="300" height="200" alt="Figure_1" style="zoom: 50%;" /><img src="result.gif" width="400" height="300" alt="result" style="zoom: 33%;" />
 
 ## File to Illustrate
 
