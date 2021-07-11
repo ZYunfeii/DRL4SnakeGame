@@ -8,7 +8,7 @@ You just need half an hour to train the snake and then it can be as smart as you
 
 ## Result
 
-<img src="README.assets\Figure_1-1625922043908.png" width="300" height="200" alt="Figure_1" style="zoom: 50%;" /><img src="result.gif" width="300" height="200" alt="result" style="zoom: 33%;" />
+<img src="README.assets\Figure_1-1625922043908.png" width="300" height="200" alt="Figure_1" style="zoom: 50%;" /><img src="README.assets\result.gif" width="300" height="200" alt="result" style="zoom:50%;" />
 
 <img src="README.assets\Figure_1-1625980553553.png" width="300" height="200" alt="Figure_1" style="zoom:50%;" /><img src="F:\MasterDegree\ReinforcementLearning\DRL4SnakeGame\README.assets\result-1625980590643.gif" width="300" height="200" alt="result" style="zoom:50%;" />
 
