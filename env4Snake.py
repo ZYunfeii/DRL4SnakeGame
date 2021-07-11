@@ -218,7 +218,8 @@ if __name__ == "__main__":
     agent.act.load_state_dict(torch.load('act_weight.pkl'))
     for _ in range(15):
         o = env.reset()
-        for _ in range(500):
+        # for _ in range(500):
+        while 1:
             env.render()
             for event in pygame.event.get(): # 不加这句render要卡，不清楚原因
                 pass
