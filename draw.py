@@ -124,6 +124,6 @@ class Painter:
 
 
 if __name__ == "__main__":
-    painter = Painter(load_csv=True, load_dir='./figure1.csv')
+    painter = Painter(load_csv=True, load_dir='reward.csv')
     painter.drawFigure(style="whitegrid")
 

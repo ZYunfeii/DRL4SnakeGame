@@ -87,51 +87,9 @@ class Snake:
         self.screen.fill(self.BG_COLOR)
         self.draw_snake(self.screen,self.snake_coords)
         self.draw_food(self.screen,self.food)
-        # self.draw_score(self.screen,len(self.snake_coords)-3)
+        self.draw_score(self.screen,len(self.snake_coords)-3)
         pygame.display.update()
         self.snake_speed_clock.tick(self.snake_speed) #控制fps
-
-    # def getState(self):
-    #     # 基础部分 5个维度
-    #     [xhead, yhead] = [self.snake_coords[self.HEAD]['x'], self.snake_coords[self.HEAD]['y']]
-    #     [xfood, yfood] = [self.food['x'], self.food['y']]
-    #     deltax = (xfood - xhead) / self.map_width
-    #     deltay = (yfood - yhead) / self.map_height
-    #     if self.direction == self.UP:
-    #         checkPoint = [[xhead-1,yhead],[xhead,yhead-1],[xhead+1,yhead]]
-    #     elif self.direction == self.LEFT:
-    #         checkPoint = [[xhead,yhead+1],[xhead-1,yhead],[xhead,yhead-1]]
-    #     elif self.direction == self.DOWN:
-    #         checkPoint = [[xhead+1,yhead],[xhead,yhead+1],[xhead-1,yhead]]
-    #     elif self.direction == self.RIGHT:
-    #         checkPoint = [[xhead,yhead-1],[xhead+1,yhead],[xhead,yhead-1]]
-    #     else: checkPoint = None
-    #     tem = [0,0,0]
-    #     for coord in self.snake_coords[1:]:
-    #         if [coord['x'],coord['y']] in checkPoint:
-    #             index = checkPoint.index([coord['x'],coord['y']])
-    #             tem[index] = 1
-    #     for i,point in enumerate(checkPoint):
-    #         if point[0]>=self.map_width or point[0]<0 or point[1]>=self.map_height or point[1]<0:
-    #             tem[i] = 1
-    #     state = [deltax,deltay]
-    #     state.extend(tem)
-    #
-    #     # 加入蛇身体中部和尾部位置信息  增加4个维度
-    #     # length = len(self.snake_coords)
-    #     # snake_mid = [self.snake_coords[int(length/2)]['x']-xhead,self.snake_coords[int(length/2)]['y']-yhead]
-    #     # snake_tail = [self.snake_coords[-1]['x']-xhead,self.snake_coords[-1]['y']-yhead]
-    #     # state.extend(snake_mid+snake_tail)
-    #
-    #     # 将蛇的1/4 2/4 3/4 4/4部分位置信息加入 增加8个维度
-    #     # length = len(self.snake_coords)
-    #     # snake_1_4 = [self.snake_coords[int(length / 4)]['x'] - xhead, self.snake_coords[int(length / 4)]['y'] - yhead]
-    #     # snake_2_4 = [self.snake_coords[int(length / 2)]['x'] - xhead, self.snake_coords[int(length / 2)]['y'] - yhead]
-    #     # snake_3_4 = [self.snake_coords[int(length *3 / 4)]['x'] - xhead, self.snake_coords[int(length *3 / 4)]['y'] - yhead]
-    #     # snake_4_4 = [self.snake_coords[-1]['x'] - xhead, self.snake_coords[-1]['y'] - yhead]
-    #     # state.extend(snake_1_4+snake_2_4+snake_3_4+snake_4_4)
-    #
-    #     return state
 
     def getState(self):
         # 基础部分 6个维度
@@ -225,7 +183,7 @@ class Snake:
     # 画成绩
     def draw_score(self,screen, score):
         font = pygame.font.Font('myfont.ttf', 30)
-        scoreSurf = font.render('得分: %s' % score, True, self.Green)
+        scoreSurf = font.render('得分: %s' % score, True, self.black)
         scoreRect = scoreSurf.get_rect()
         scoreRect.topleft = (self.windows_width - 120, 10)
         screen.blit(scoreSurf, scoreRect)

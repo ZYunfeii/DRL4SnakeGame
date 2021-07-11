@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 def testAgent(test_env,agent,episode):
     ep_reward = 0
     o = test_env.reset()
-    for _ in range(500):
+    for _ in range(650):
         if episode % 100 == 0:
             test_env.render()
         for event in pygame.event.get():  # 不加这句render要卡，不清楚原因
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     agent.init(512,obs_dim,act_dim,if_use_gae=True)
     agent.state = env.reset()
     buffer = ReplayBuffer(2**15,obs_dim,act_dim,True)
-    MAX_EPISODE = 500
+    MAX_EPISODE = 800
     batch_size = 256
     rewardList = []
     maxReward = -np.inf
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     pygame.quit()
 
     painter = Painter(load_csv=True, load_dir='reward.csv')
-    painter.addData(rewardList, 'PPO')
+    painter.addData(rewardList, 'Add body info')
     painter.saveData('reward.csv')
     painter.setTitle('snake game reward')
     painter.setXlabel('episode')
