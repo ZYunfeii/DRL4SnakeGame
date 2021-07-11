@@ -10,6 +10,8 @@ You just need half an hour to train the snake and then it can be as smart as you
 
 <img src="README.assets\Figure_1-1625922043908.png" width="300" height="200" alt="Figure_1" style="zoom: 50%;" /><img src="result.gif" width="300" height="200" alt="result" style="zoom: 33%;" />
 
+<img src="README.assets\Figure_1-1625980553553.png" width="300" height="200" alt="Figure_1" style="zoom:50%;" /><img src="F:\MasterDegree\ReinforcementLearning\DRL4SnakeGame\README.assets\result-1625980590643.gif" width="300" height="200" alt="result" style="zoom:50%;" />
+
 ## File to Illustrate
 
 Agent.py: file to store the algorithm.
@@ -23,6 +25,15 @@ env4Snake.py: the environment for snake game.
 main.py: the main func.
 
 **what you need to do is to run the main.py and then run the env4Snake to test your mdoel!**
+
+## Requirements
+
+1. torch
+2. numpy
+3. seaborn==0.11.1
+4. pygame==2.0.1
+5. matplotlib==3.2.2
+6. PIL(This is unimportant. I do not use this package in running process.)
 
 ## Details for realization
 

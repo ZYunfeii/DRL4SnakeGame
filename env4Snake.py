@@ -73,11 +73,11 @@ class Snake:
         reward = 0
         if flag:
             reward += 2
-        [xhead,yhead] = [self.snake_coords[self.HEAD]['x'],self.snake_coords[self.HEAD]['y']]
-        [xfood,yfood] = [self.food['x'],self.food['y']]
-        distance1 = np.sqrt((xhead-xfood)**2+(yhead-yfood)**2)
-        if distance1 < 2:
-            reward += (2-distance1)/2
+        # [xhead,yhead] = [self.snake_coords[self.HEAD]['x'],self.snake_coords[self.HEAD]['y']]
+        # [xfood,yfood] = [self.food['x'],self.food['y']]
+        # distance1 = np.sqrt((xhead-xfood)**2+(yhead-yfood)**2)
+        # if distance1 < 1:
+        #     reward += (1-distance1)/1
         if d: reward -= 0.5
         return reward
 
@@ -92,36 +92,55 @@ class Snake:
         self.snake_speed_clock.tick(self.snake_speed) #控制fps
 
     # def getState(self):
-    #     state = np.zeros((self.map_width,self.map_height))
-    #     for i, coord in enumerate(self.snake_coords):
-    #         tag = 2 if i == self.HEAD else 1.
-    #         x = coord['x']
-    #         y = coord['y']
-    #         if x >= self.map_width: x = x-1
-    #         if x <= -1: x = 0
-    #         if y >= self.map_height: y=y-1
-    #         if y <= -1: y=0
-    #         state[x][y] = tag
+    #     # 基础部分 5个维度
+    #     [xhead, yhead] = [self.snake_coords[self.HEAD]['x'], self.snake_coords[self.HEAD]['y']]
+    #     [xfood, yfood] = [self.food['x'], self.food['y']]
+    #     deltax = (xfood - xhead) / self.map_width
+    #     deltay = (yfood - yhead) / self.map_height
+    #     if self.direction == self.UP:
+    #         checkPoint = [[xhead-1,yhead],[xhead,yhead-1],[xhead+1,yhead]]
+    #     elif self.direction == self.LEFT:
+    #         checkPoint = [[xhead,yhead+1],[xhead-1,yhead],[xhead,yhead-1]]
+    #     elif self.direction == self.DOWN:
+    #         checkPoint = [[xhead+1,yhead],[xhead,yhead+1],[xhead-1,yhead]]
+    #     elif self.direction == self.RIGHT:
+    #         checkPoint = [[xhead,yhead-1],[xhead+1,yhead],[xhead,yhead-1]]
+    #     else: checkPoint = None
+    #     tem = [0,0,0]
+    #     for coord in self.snake_coords[1:]:
+    #         if [coord['x'],coord['y']] in checkPoint:
+    #             index = checkPoint.index([coord['x'],coord['y']])
+    #             tem[index] = 1
+    #     for i,point in enumerate(checkPoint):
+    #         if point[0]>=self.map_width or point[0]<0 or point[1]>=self.map_height or point[1]<0:
+    #             tem[i] = 1
+    #     state = [deltax,deltay]
+    #     state.extend(tem)
     #
-    #     state[self.food['x']][self.food['y']] = -1.
-    #     state = state.transpose().reshape(-1,144)[0]
+    #     # 加入蛇身体中部和尾部位置信息  增加4个维度
+    #     # length = len(self.snake_coords)
+    #     # snake_mid = [self.snake_coords[int(length/2)]['x']-xhead,self.snake_coords[int(length/2)]['y']-yhead]
+    #     # snake_tail = [self.snake_coords[-1]['x']-xhead,self.snake_coords[-1]['y']-yhead]
+    #     # state.extend(snake_mid+snake_tail)
+    #
+    #     # 将蛇的1/4 2/4 3/4 4/4部分位置信息加入 增加8个维度
+    #     # length = len(self.snake_coords)
+    #     # snake_1_4 = [self.snake_coords[int(length / 4)]['x'] - xhead, self.snake_coords[int(length / 4)]['y'] - yhead]
+    #     # snake_2_4 = [self.snake_coords[int(length / 2)]['x'] - xhead, self.snake_coords[int(length / 2)]['y'] - yhead]
+    #     # snake_3_4 = [self.snake_coords[int(length *3 / 4)]['x'] - xhead, self.snake_coords[int(length *3 / 4)]['y'] - yhead]
+    #     # snake_4_4 = [self.snake_coords[-1]['x'] - xhead, self.snake_coords[-1]['y'] - yhead]
+    #     # state.extend(snake_1_4+snake_2_4+snake_3_4+snake_4_4)
+    #
     #     return state
 
     def getState(self):
+        # 基础部分 6个维度
         [xhead, yhead] = [self.snake_coords[self.HEAD]['x'], self.snake_coords[self.HEAD]['y']]
         [xfood, yfood] = [self.food['x'], self.food['y']]
         deltax = (xfood - xhead) / self.map_width
         deltay = (yfood - yhead) / self.map_height
-        if self.direction == self.UP:
-            checkPoint = [[xhead-1,yhead],[xhead,yhead-1],[xhead+1,yhead]]
-        elif self.direction == self.LEFT:
-            checkPoint = [[xhead,yhead+1],[xhead-1,yhead],[xhead,yhead-1]]
-        elif self.direction == self.DOWN:
-            checkPoint = [[xhead+1,yhead],[xhead,yhead+1],[xhead-1,yhead]]
-        elif self.direction == self.RIGHT:
-            checkPoint = [[xhead,yhead-1],[xhead+1,yhead],[xhead,yhead-1]]
-        else: checkPoint = None
-        tem = [0,0,0]
+        checkPoint = [[xhead,yhead-1],[xhead-1,yhead],[xhead,yhead+1],[xhead+1,yhead]]
+        tem = [0,0,0,0]
         for coord in self.snake_coords[1:]:
             if [coord['x'],coord['y']] in checkPoint:
                 index = checkPoint.index([coord['x'],coord['y']])
@@ -131,7 +150,16 @@ class Snake:
                 tem[i] = 1
         state = [deltax,deltay]
         state.extend(tem)
+
+        # 加入蛇身体中部和尾部位置信息  增加4个维度
+        # length = len(self.snake_coords)
+        # snake_mid = [self.snake_coords[int(length/2)]['x']-xhead,self.snake_coords[int(length/2)]['y']-yhead]
+        # snake_tail = [self.snake_coords[-1]['x']-xhead,self.snake_coords[-1]['y']-yhead]
+        # state.extend(snake_mid+snake_tail)
         return state
+
+
+
 
     def draw_food(self,screen, food):
         x = food['x'] * self.cell_size
@@ -228,7 +256,7 @@ if __name__ == "__main__":
     env = Snake()
     env.snake_speed = 15
     agent = AgentDiscretePPO()
-    agent.init(512,5,4)
+    agent.init(512,6,4)
     agent.act.load_state_dict(torch.load('act_weight.pkl'))
     for _ in range(15):
         o = env.reset()
