@@ -54,7 +54,7 @@ if __name__ == "__main__":
     pygame.quit()
 
     painter = Painter(load_csv=True, load_dir='reward.csv')
-    painter.addData(rewardList, 'Add body info')
+    painter.addData(rewardList, 'PPO')
     painter.saveData('reward.csv')
     painter.setTitle('snake game reward')
     painter.setXlabel('episode')
