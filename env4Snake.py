@@ -14,9 +14,9 @@ from torchvision import transforms
 class Snake:
     def __init__(self):
         self.snake_speed = 100 # 贪吃蛇的速度
-        self.windows_width = 600
-        self.windows_height = 600  # 游戏窗口的大小
-        self.cell_size = 50  # 贪吃蛇身体方块大小,注意身体大小必须能被窗口长宽整除
+        self.windows_width = 1800
+        self.windows_height = 1800  # 游戏窗口的大小
+        self.cell_size = 150  # 贪吃蛇身体方块大小,注意身体大小必须能被窗口长宽整除
         self.map_width = int(self.windows_width / self.cell_size)
         self.map_height = int(self.windows_height / self.cell_size)
         self.white = (255, 255, 255)
@@ -116,9 +116,6 @@ class Snake:
         # state.extend(snake_mid+snake_tail)
         return state
 
-
-
-
     def draw_food(self,screen, food):
         x = food['x'] * self.cell_size
         y = food['y'] * self.cell_size
@@ -168,8 +165,16 @@ class Snake:
     def snake_is_eat_food(self,snake_coords, food):  # 如果是列表或字典，那么函数内修改参数内容，就会影响到函数体外的对象。
         flag = False
         if snake_coords[self.HEAD]['x'] == food['x'] and snake_coords[self.HEAD]['y'] == food['y']:
-            food['x'] = random.randint(0, self.map_width - 1)
-            food['y'] = random.randint(0, self.map_height - 1)  # 实物位置重新设置
+            while True:
+                food['x'] = random.randint(0, self.map_width - 1)
+                food['y'] = random.randint(0, self.map_height - 1)  # 实物位置重新设置
+                tag = 0
+                for coord in snake_coords:
+                    if [coord['x'],coord['y']] == [food['x'],food['y']]:
+                        tag = 1
+                        break
+                if tag == 1: continue
+                break
             flag = True
         else:
             del snake_coords[-1]  # 如果没有吃到实物, 就向前移动, 那么尾部一格删掉
@@ -211,8 +216,9 @@ class Snake:
 
 
 if __name__ == "__main__":
+    random.seed(100)
     env = Snake()
-    env.snake_speed = 15
+    env.snake_speed = 10
     agent = AgentDiscretePPO()
     agent.init(512,6,4)
     agent.act.load_state_dict(torch.load('act_weight.pkl'))

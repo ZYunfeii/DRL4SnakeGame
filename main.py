@@ -33,7 +33,7 @@ if __name__ == "__main__":
     agent = AgentDiscretePPO()
     agent.init(512,obs_dim,act_dim,if_use_gae=True)
     agent.state = env.reset()
-    buffer = ReplayBuffer(2**15,obs_dim,act_dim,True)
+    buffer = ReplayBuffer(2**12,obs_dim,act_dim,True)
     MAX_EPISODE = 800
     batch_size = 256
     rewardList = []
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         ep_reward = testAgent(test_env, agent, episode)
         print('Episode:', episode, 'Reward:%f' % ep_reward)
         rewardList.append(ep_reward)
-        if episode > MAX_EPISODE/2 and ep_reward > maxReward:
+        if episode > MAX_EPISODE/3 and ep_reward > maxReward:
             maxReward = ep_reward
             print('保存模型！')
             torch.save(agent.act.state_dict(),'act_weight.pkl')
