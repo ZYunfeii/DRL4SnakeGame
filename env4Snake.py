@@ -14,9 +14,9 @@ from torchvision import transforms
 class Snake:
     def __init__(self):
         self.snake_speed = 100 # 贪吃蛇的速度
-        self.windows_width = 1800
-        self.windows_height = 1800  # 游戏窗口的大小
-        self.cell_size = 150  # 贪吃蛇身体方块大小,注意身体大小必须能被窗口长宽整除
+        self.windows_width = 600
+        self.windows_height = 600  # 游戏窗口的大小
+        self.cell_size = 50  # 贪吃蛇身体方块大小,注意身体大小必须能被窗口长宽整除
         self.map_width = int(self.windows_width / self.cell_size)
         self.map_height = int(self.windows_height / self.cell_size)
         self.white = (255, 255, 255)
